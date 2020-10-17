@@ -37,6 +37,9 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+server/node_modules/
+server/docker-compose/data/
+server/docker-compose/mysql-conf/
 
 # TypeScript v1 declaration files
 typings/

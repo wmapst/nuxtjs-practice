@@ -3,7 +3,7 @@
         main.main-container(itemscope itemtype="https://schema.org/Blog")
             div.wp-contents
                 div(v-for="item in items")
-                    nuxt-link.wp-link(:to="{name: 'article-id', params:{id: item.id}}")
+                    a.wp-link(:href="item.link" target="_blank")
                         article.wp-article
                             figure.wp-imagebox(v-if="item._embedded['wp:featuredmedia']")
                                 img.wp-image(:src="item._embedded['wp:featuredmedia'][0].source_url" alt="")
@@ -20,37 +20,45 @@ export default {
         return {
         items: [],
         itemTotal: 1,
+        error: false,
         current: 1,
         pageSize: 10,
         }
     },
+    computed: {
+
+    },
     methods: {
+        //レスポンス後の処理
+        setItem(res) {
+            this.items = res
+        },
+        //記事数を取得
+        setTotal(res) {
+            this.itemTotal = res.headers['x-wp-total']
+        },
+        //エラーが発生した場合の処理
+        setError(err) {
+            console.log(err)
+            this.error = true
+        },
         //ページング切り替え
         onChange(current) {
-            this.current = current
-            this.$router.push(
-                {path: `/page/${current}`}
-            )
+        this.current = current;
         },
+    },
+    created() {
+        this.$axios.$get('https://www.wmapst.net/wp-json/wp/v2/posts?_embed&page=1&per_page=10')
+        .then(this.setItem)
+        .catch(this.setError)
+
+        this.$axios.get('https://www.wmapst.net/wp-json/wp/v2/posts')
+        .then(this.setTotal)
     },
     filters: {
         moment: function (date) {
             return date.replace('T',' ')
         }
-    },
-    async asyncData({ $axios }) {
-        return await $axios.get('https://www.wmapst.net/wp-json/wp/v2/posts?_embed', {
-            params: {
-                page: 1,
-                per_page: 10
-            }
-        })
-        .then(response => {
-                return { 
-                    items: response.data,
-                    itemTotal: Number(response.headers['x-wp-total'])
-                 }
-            })
     },
 }
 </script>
@@ -68,7 +76,6 @@ export default {
     display: block
 
 .wp-contents
-    max-width: 800px
     background-color: #FFFFFF
     display: block
 

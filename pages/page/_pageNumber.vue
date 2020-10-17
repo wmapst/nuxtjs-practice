@@ -3,7 +3,7 @@
         main.main-container(itemscope itemtype="https://schema.org/Blog")
             div.wp-contents
                 div(v-for="item in items")
-                    nuxt-link.wp-link(:to="{name: 'article-id', params:{id: item.id}}")
+                    a.wp-link(:href="item.link" target="_blank")
                         article.wp-article
                             figure.wp-imagebox(v-if="item._embedded['wp:featuredmedia']")
                                 img.wp-image(:src="item._embedded['wp:featuredmedia'][0].source_url" alt="")
@@ -33,25 +33,29 @@ export default {
             )
         },
     },
+    validate({ params }) {
+        return /^\d+$/.test(params.pageNumber)
+    },
     filters: {
         moment: function (date) {
             return date.replace('T',' ')
         }
     },
-    async asyncData({ $axios }) {
+    async asyncData({ $axios, params }) {
         return await $axios.get('https://www.wmapst.net/wp-json/wp/v2/posts?_embed', {
             params: {
-                page: 1,
+                page: params.pageNumber,
                 per_page: 10
             }
         })
         .then(response => {
                 return { 
                     items: response.data,
-                    itemTotal: Number(response.headers['x-wp-total'])
+                    itemTotal: Number(response.headers['x-wp-total']),
+                    current: Number(params.pageNumber),
                  }
             })
-    },
+    }
 }
 </script>
 
@@ -68,7 +72,6 @@ export default {
     display: block
 
 .wp-contents
-    max-width: 800px
     background-color: #FFFFFF
     display: block
 

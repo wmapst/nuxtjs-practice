@@ -1,11 +1,13 @@
 import Vue from 'vue'
 
-import blogHeader from '~/components/Header.vue'
-import articleCard from '~/components/articleCard.vue'
+import blogHeader from '~/components/layout/Header.vue'
+import blogFooter from '~/components/layout/Footer.vue'
 
-Vue.mixin({
-    components: {
-        blogHeader,
-        articleCard
+Vue.mixin(
+    {
+        components: {
+            blogHeader,
+            blogFooter
+        }
     }
-  })
+)

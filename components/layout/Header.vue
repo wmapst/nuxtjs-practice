@@ -4,7 +4,7 @@
             header(itemscope itemtype="https://schema.org/WPHeader")
                 div.header-in(itemscope itemtype="https://schema.org/WebSite")
                     h1.logo
-                        a.site-name(href="https://www.wmapst.net/" itemprop="url" target="_blank")
+                        nuxt-link.site-name(to="/" itemprop="url")
                             span.site-name-text(itemprop="name about")
                                 img.site-logo-image(src="https://www.wmapst.net/wp-content/uploads/2015/06/wmapp_logo.png" alt="Web Marketing and Programming")
 </template>
