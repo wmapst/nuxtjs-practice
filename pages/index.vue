@@ -2,7 +2,7 @@
     div.contents-container
         main.main-container(itemscope itemtype="https://schema.org/Blog")
             div.wp-contents
-                div(v-for="item in items")
+                div.wp-content(v-for="item in items")
                     nuxt-link.wp-link(:to="{name: 'article-id', params:{id: item.id}}")
                         article.wp-article
                             figure.wp-imagebox(v-if="item._embedded['wp:featuredmedia']")
@@ -11,7 +11,7 @@
                                 h3.wp-title {{ item.title.rendered }}
                                 p.wp-description {{ item.excerpt.rendered }}
                                 p.wp-date {{ item.date | moment }}
-            a-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
+        a-pagination.wp-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
 
 <style lang="stylus" scoped>
 .contents-container
-    display: flex
+    display: block
     margin: 10px
 
 .main-container
@@ -66,6 +66,9 @@ export default {
     margin: 0.5%
     background-color: #FFFFFF
     display: block
+
+.wp-content
+    display: inline-block
 
 .wp-contents
     max-width: 800px
@@ -109,5 +112,9 @@ export default {
 
 .wp-date
     font-size: .8em
+
+.wp-pagination
+    display: block
+    margin 10px 0
 
 </style>

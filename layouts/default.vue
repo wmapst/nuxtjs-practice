@@ -11,7 +11,8 @@ html
     Roboto, 'Helvetica Neue', Arial, sans-serif
   font-size: 16px
 
-body
+.body-class
   background-color: #f2f2f2
 
 </style>
+

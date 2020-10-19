@@ -11,7 +11,7 @@
                                 h3.wp-title {{ item.title.rendered }}
                                 p.wp-description {{ item.excerpt.rendered }}
                                 p.wp-date {{ item.date | moment }}
-            a-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
+    a-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
 </template>
 
 <script>

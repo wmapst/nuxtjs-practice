@@ -1,5 +1,5 @@
 <template lang="pug">
-    div hoge
+    div
 </template>
 
 <script>
