@@ -3,15 +3,18 @@
         main.main-container(itemscope itemtype="https://schema.org/Blog")
             div.wp-contents
                 div.wp-content(v-for="item in items")
-                    nuxt-link.wp-link(:to="{name: 'article-id', params:{id: item.id}}")
+                    nuxt-link.wp-link(:to="{name: 'article-articleId', params:{articleId: item.id}}")
                         article.wp-article
                             figure.wp-imagebox(v-if="item._embedded['wp:featuredmedia']")
-                                img.wp-image(:src="item._embedded['wp:featuredmedia'][0].source_url" alt="")
+                                img.wp-image(:src="item._embedded['wp:featuredmedia'][0].source_url" alt="" width="320" height="180" sizes="(max-width: 320px) 100vw, 320px")
                             div.wp-caption
                                 h3.wp-title {{ item.title.rendered }}
-                                p.wp-description {{ item.excerpt.rendered }}
+                                p.wp-description {{ item.excerpt.rendered | ignoreHtml }}
                                 p.wp-date {{ item.date | moment }}
-        a-pagination.wp-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
+            div.wp-pagination-container
+                a-pagination.wp-pagination(:current="current" :total="itemTotal" @change="onChange" :page-size="pageSize")
+        aside.sidebar-container
+            blogSidebar
 </template>
 
 <script>
@@ -39,10 +42,13 @@ export default {
     filters: {
         moment: function (date) {
             return date.replace('T',' ')
-        }
+        },
+        ignoreHtml: function (httpText) {
+            return httpText.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'').replace('[&hellip;]', '...')
+        },
     },
     async asyncData({ $axios, params }) {
-        return await $axios.get('https://www.wmapst.net/wp-json/wp/v2/posts?_embed', {
+        return await $axios.get('/posts?_embed', {
             params: {
                 page: params.pageNumber,
                 per_page: 10
@@ -61,7 +67,7 @@ export default {
 
 <style lang="stylus" scoped>
 .contents-container
-    display: block
+    display: flex
     margin: 10px
 
 .main-container
@@ -116,8 +122,18 @@ export default {
 .wp-date
     font-size: .8em
 
+.wp-pagination-container
+    display: inline-block
+    margin: 10px 0 10px 0
+    text-align: center
+    width: 100%
+
 .wp-pagination
+    margin: 0 auto
+
+.sidebar-container
+    margin: 0.5%
+    background-color: #fff
     display: block
-    margin 10px 0
 
 </style>

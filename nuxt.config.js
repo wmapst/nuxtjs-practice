@@ -13,6 +13,9 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  // Loading Bar(default)
+  loading: { color: 'blue', height: '10px' },
+
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [],
 
@@ -44,7 +47,9 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'https://www.wmapst.net/wp-json/wp/v2'
+  },
 
   // Content module configuration (https://go.nuxtjs.dev/content-config)
   content: {},

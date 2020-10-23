@@ -13,6 +13,8 @@ html
 
 .body-class
   background-color: #f2f2f2
+  line-height: 1.8
+  font-size: 18px
 
 </style>
 
